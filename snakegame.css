@@ -1,0 +1,27 @@
+* { 
+	padding: 0; margin: 0; 
+}
+canvas { 
+	background-color: #22d822;
+	display: block; 
+	margin: 0 auto; 
+}
+#score,#ques{
+	display: inline;
+}
+#box{
+	background-color: white;
+	border: black solid;
+	height: 50px;
+	width: 600px;
+	margin-left: 370px;
+	padding: 10px;
+	font-size: 20px;
+}
+#quesbox{
+	float:right;
+	display: inline;
+}
+#scorebox{
+	display: inline;
+}
