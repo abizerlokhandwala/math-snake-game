@@ -227,22 +227,22 @@ function after_collision(){
 addEventListener("keydown", keyDownHandler, false);
 
 function keyDownHandler(e) {
-    if(e.keyCode == 39 && leftPressed!=true) { 	   //right
+    if( (e.keyCode == 39 || e.keyCode==68) && leftPressed!=true) { 	   //right
         	keyreset();
         	rightPressed = true;
     }
 
-    else if(e.keyCode == 37 && rightPressed!=true) { //left
+    else if( (e.keyCode == 37 || e.keyCode==65) && rightPressed!=true) { //left
         	keyreset();
         	leftPressed = true;
     }
 
-    else if(e.keyCode == 38 && bottomPressed!=true){  //top
+    else if( (e.keyCode == 38 || e.keyCode==87) && bottomPressed!=true){  //top
         	keyreset();
         	topPressed = true;
     }
 
-    else if(e.keyCode == 40 && topPressed!=true){  //down
+    else if( (e.keyCode == 40 || e.keyCode==83)&& topPressed!=true){  //down
         	keyreset();
         	bottomPressed = true;
     }
