@@ -271,10 +271,10 @@ function keyreset() {
 }
 
 function play_again(){
-	//alert("Your score is: "+score);
-	//if(confirm("Play again?")){
+	alert("Your score is: "+score);
+	if(confirm("Play again?")){
 			location.reload();
-	//}
+	}
 }
 
 create_snake();
