@@ -139,12 +139,12 @@ function question(){
 }*/
 
 function rand(){
-	x1food=45+Math.floor(Math.random()*(canvas.width-70)/15)*15; //between 30 and width-15
-	y1food=30+Math.floor(Math.random()*(canvas.height-40)/15)*15; // ^
-	x2food=45+Math.floor(Math.random()*(canvas.width-70)/15)*15; //between 30 and width-15
-	y2food=30+Math.floor(Math.random()*(canvas.height-40)/15)*15;
-	x3food=45+Math.floor(Math.random()*(canvas.width-70)/15)*15; //between 30 and width-15
-	y3food=30+Math.floor(Math.random()*(canvas.height-40)/15)*15;
+	x1food=45+Math.floor(Math.random()*(canvas.width-80)/15)*15; //between 30 and width-15
+	y1food=45+Math.floor(Math.random()*(canvas.height-80)/15)*15; // ^
+	x2food=45+Math.floor(Math.random()*(canvas.width-80)/15)*15; //between 30 and width-15
+	y2food=45+Math.floor(Math.random()*(canvas.height-80)/15)*15;
+	x3food=45+Math.floor(Math.random()*(canvas.width-80)/15)*15; //between 30 and width-15
+	y3food=45+Math.floor(Math.random()*(canvas.height-80)/15)*15;
 	if(x1food<x2food+30 && y1food<y2food+30 && x1food>x2food-30 && y1food>y2food-30 || x2food<x3food+30 && y2food<y3food+30 && x2food>x3food-30 && y2food>y3food-30 || x1food<x3food+30 && y1food<y3food+30 && x1food>x3food-30 && y1food>y3food-30 ){
 		rand();
 	}
@@ -221,7 +221,6 @@ function after_collision(){
 			ctx.stroke();
 			ctx.closePath();
 			clearInterval(clrReturn);
-			alert("Your score is: "+score);
 			play_again();
 }
 
@@ -272,9 +271,10 @@ function keyreset() {
 }
 
 function play_again(){
-	if(confirm("Play again?")){
+	//alert("Your score is: "+score);
+	//if(confirm("Play again?")){
 			location.reload();
-	}
+	//}
 }
 
 create_snake();
