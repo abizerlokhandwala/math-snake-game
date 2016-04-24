@@ -1,8 +1,5 @@
-var canvas = document.getElementById("myCanvas");
-var ctx = canvas.getContext("2d");
-
-canvas.width=600; //width
-canvas.height=400; //height
+var canvas = null;
+var ctx = null;
 
 var xhead; //head position
 var yhead; //^
@@ -24,6 +21,7 @@ var rightPressed = true; //snake initially moves right
 var leftPressed = false;
 var topPressed = false;
 var bottomPressed = false;
+var directionflag=1;
 
 var snake_array=[]; //snake body in an array
 var speed=150;
@@ -62,15 +60,15 @@ function drawbody(){
 	ctx.arc(temp.x*cw,temp.y*cw,8,0,2*Math.PI);
 	ctx.fillStyle = "black";
 	ctx.fill();
-	ctx.strokeStyle = "white";
+	ctx.strokeStyle = "black";
 	ctx.stroke();
 	ctx.closePath();
 		} else {
 		ctx.beginPath();
 	ctx.arc(temp.x*cw,temp.y*cw,8,0,2*Math.PI);
-	ctx.fillStyle = "blue";
+	ctx.fillStyle = "darkgreen";
 	ctx.fill();
-	ctx.strokeStyle = "white";
+	ctx.strokeStyle = "black";
 	ctx.stroke();
 	ctx.closePath(); }
 }
@@ -116,12 +114,10 @@ function border(){
 	ctx.rect(canvas.width-cw-cw/2,0,cw+cw/2,canvas.height);
 	ctx.rect(0,canvas.height-15,canvas.width,15);
 	ctx.fillStyle="#6c2e08";
-	ctx.strokeStyle="black";
 	ctx.fill();
-	ctx.stroke();
-	/*ctx.font="20px arial";
-	ctx.fillStyle="red";
-	ctx.fillText("Score: "+score,20,395);*/
+	ctx.font="20px arial";
+	ctx.fillStyle="black";
+	ctx.fillText("Speed: "+speed,20,300);
 	ctx.closePath();
 }
 
@@ -138,7 +134,7 @@ function question(){
 	ctx.closePath();
 }*/
 
-function rand(){
+function update_game(){
 	x1food=45+Math.floor(Math.random()*(canvas.width-80)/15)*15; //between 30 and width-15
 	y1food=45+Math.floor(Math.random()*(canvas.height-80)/15)*15; // ^
 	x2food=45+Math.floor(Math.random()*(canvas.width-80)/15)*15; //between 30 and width-15
@@ -146,28 +142,36 @@ function rand(){
 	x3food=45+Math.floor(Math.random()*(canvas.width-80)/15)*15; //between 30 and width-15
 	y3food=45+Math.floor(Math.random()*(canvas.height-80)/15)*15;
 	if(x1food<x2food+30 && y1food<y2food+30 && x1food>x2food-30 && y1food>y2food-30 || x2food<x3food+30 && y2food<y3food+30 && x2food>x3food-30 && y2food>y3food-30 || x1food<x3food+30 && y1food<y3food+30 && x1food>x3food-30 && y1food>y3food-30 ){
-		rand();
+		update_game();
 	}
 	randnum1=Math.floor(Math.random()*150);
 	randnum2=Math.floor(Math.random()*150);
 	question();
 	randnum3=ques*Math.floor(2+Math.random()*10);
 		if(randnum1==randnum2 || randnum2==randnum3 || randnum3==randnum1 || randnum1%ques==0 || randnum2%ques==0){
-			rand();
+			update_game();
 		} else {
-		clearInterval(clrReturn);   // clear the initial set interval
-		speed=speed-ds;				// update the speed to make it faster
-		clrReturn=setInterval(move,speed);  // new set interval with new speed
+			update_speed();
+	}
+}
+
+function update_speed(){
+	clearInterval(clrReturn);   // clear the initial set interval
+		if(speed==80){
+			clrReturn=setInterval(move,speed);
+		} else{
+			speed=speed-ds;				// update the speed to make it faster
+			clrReturn=setInterval(move,speed);  // new set interval with new speed
 		}
 }
 
 function check(){
 	if(xhead*15==x3food && yhead*15==y3food){
-		rand();
+		update_game();
 		score++;		// eats the right food
 		flag=1;
 	} else if (xhead*15==x1food && yhead*15== y1food || xhead*15==x2food && yhead*15==y2food) {
-		rand();
+		update_game();
 		score--;
 																																											life--;		//eats the wrong food
 		flag=1;
@@ -196,6 +200,8 @@ function move(){
 			}
 	snake_array.unshift(tail);		//add tail at the start
 
+	directionflag=1;
+
 }
 
 function conditions(){
@@ -217,7 +223,7 @@ function after_collision(){
 			ctx.fillStyle="red";
 			ctx.arc(xhead*cw,yhead*cw,8,0,2*Math.PI);
 			ctx.fill();
-			ctx.strokeStyle="white";
+			ctx.strokeStyle="black";
 			ctx.stroke();
 			ctx.closePath();
 			clearInterval(clrReturn);
@@ -227,28 +233,35 @@ function after_collision(){
 addEventListener("keydown", keyDownHandler, false);
 
 function keyDownHandler(e) {
+	if(directionflag==1){
     if( (e.keyCode == 39 || e.keyCode==68) && leftPressed!=true) { 	   //right
         	keyreset();
         	rightPressed = true;
+        	directionflag=0;
     }
 
     else if( (e.keyCode == 37 || e.keyCode==65) && rightPressed!=true) { //left
         	keyreset();
         	leftPressed = true;
+        	directionflag=0;
     }
 
     else if( (e.keyCode == 38 || e.keyCode==87) && bottomPressed!=true){  //top
         	keyreset();
         	topPressed = true;
+        	directionflag=0;
     }
 
     else if( (e.keyCode == 40 || e.keyCode==83)&& topPressed!=true){  //down
         	keyreset();
         	bottomPressed = true;
+        	directionflag=0;
     }
+}
 }
 
 function direction(){
+
 	if(rightPressed==true){ //new head is at the right
 		xhead++;
 	}
@@ -271,11 +284,19 @@ function keyreset() {
 }
 
 function play_again(){
-	alert("Your score is: "+score);
+	alert("GAME OVER\nYour score is: "+score);
 	if(confirm("Play again?")){
 			location.reload();
 	}
 }
 
-create_snake();
-rand();
+window.onload = function() {
+	canvas = document.getElementById("myCanvas");
+	ctx = canvas.getContext("2d");
+
+	canvas.width=600; //width
+canvas.height=400; //height
+
+	create_snake();
+	update_game();	
+}
