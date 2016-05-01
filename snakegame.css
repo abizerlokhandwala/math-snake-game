@@ -14,7 +14,7 @@ canvas {
 	border: black solid;
 	height: 50px;
 	width: 600px;
-	margin-left: 370px;
+	margin: 0 auto;
 	padding: 10px;
 	font-size: 20px;
 }

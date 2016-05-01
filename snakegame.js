@@ -31,9 +31,22 @@ var score=0;
 var length=4;
 var flag=0;
 var life=3;
+var rotate=2; //1 is top, 2 right, 3 down, 4 left
 
 var heart=new Image();
 heart.src="heart.png";
+
+var headtop=new Image();
+headtop.src="headtop.png";
+
+var headright=new Image();
+headright.src="headright.png";
+
+var headdown=new Image();
+headdown.src="headdown.png";
+
+var headleft=new Image();
+headleft.src="headleft.png";
 
 function lives(){
 	for(var i=life; i>0; i--){
@@ -57,11 +70,18 @@ function drawbody(){
 		var temp=snake_array[i];
 		if(i==0){
 			ctx.beginPath();
-	ctx.arc(temp.x*cw,temp.y*cw,8,0,2*Math.PI);
-	ctx.fillStyle = "black";
-	ctx.fill();
-	ctx.strokeStyle = "black";
-	ctx.stroke();
+			if(rotate==1){
+				ctx.drawImage(headtop,temp.x*cw-10,temp.y*cw-20,20,30);
+			}
+			if(rotate==2){
+				ctx.drawImage(headright,temp.x*cw-10,temp.y*cw-10,30,20);
+			}
+			if(rotate==3){
+				ctx.drawImage(headdown,temp.x*cw-10,temp.y*cw-10,20,30);
+			}
+			if(rotate==4){
+				ctx.drawImage(headleft,temp.x*cw-20,temp.y*cw-10,30,20);
+			}
 	ctx.closePath();
 		} else {
 		ctx.beginPath();
@@ -115,9 +135,9 @@ function border(){
 	ctx.rect(0,canvas.height-15,canvas.width,15);
 	ctx.fillStyle="#6c2e08";
 	ctx.fill();
-	ctx.font="20px arial";
+	/*ctx.font="20px arial";
 	ctx.fillStyle="black";
-	ctx.fillText("Speed: "+speed,20,300);
+	ctx.fillText("Speed: "+speed,20,300);*/
 	ctx.closePath();
 }
 
@@ -238,24 +258,28 @@ function keyDownHandler(e) {
         	keyreset();
         	rightPressed = true;
         	directionflag=0;
+        	rotate=2;
     }
 
     else if( (e.keyCode == 37 || e.keyCode==65) && rightPressed!=true) { //left
         	keyreset();
         	leftPressed = true;
         	directionflag=0;
+        	rotate=4;
     }
 
     else if( (e.keyCode == 38 || e.keyCode==87) && bottomPressed!=true){  //top
         	keyreset();
         	topPressed = true;
         	directionflag=0;
+        	rotate=1;
     }
 
     else if( (e.keyCode == 40 || e.keyCode==83)&& topPressed!=true){  //down
         	keyreset();
         	bottomPressed = true;
         	directionflag=0;
+        	rotate=3;
     }
 }
 }
@@ -295,7 +319,7 @@ window.onload = function() {
 	ctx = canvas.getContext("2d");
 
 	canvas.width=600; //width
-canvas.height=400; //height
+	canvas.height=400; //height
 
 	create_snake();
 	update_game();	
