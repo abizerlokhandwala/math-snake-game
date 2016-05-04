@@ -34,19 +34,19 @@ var life=3;
 var rotate=2; //1 is top, 2 right, 3 down, 4 left
 
 var heart=new Image();
-heart.src="heart.png";
+heart.src="images/heart.png";
 
 var headtop=new Image();
-headtop.src="headtop.png";
+headtop.src="images/headtop.png";
 
 var headright=new Image();
-headright.src="headright.png";
+headright.src="images/headright.png";
 
 var headdown=new Image();
-headdown.src="headdown.png";
+headdown.src="images/headdown.png";
 
 var headleft=new Image();
-headleft.src="headleft.png";
+headleft.src="images/headleft.png";
 
 function lives(){
 	for(var i=life; i>0; i--){
@@ -192,8 +192,10 @@ function check(){
 		flag=1;
 	} else if (xhead*15==x1food && yhead*15== y1food || xhead*15==x2food && yhead*15==y2food) {
 		update_game();
+		if(score){
 		score--;
-																																											life--;		//eats the wrong food
+		}																																						
+		life--;		//eats the wrong food
 		flag=1;
 	}
 	document.getElementById('score').innerHTML=score;
