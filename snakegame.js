@@ -33,9 +33,6 @@ var flag=0;
 var life=3;
 var rotate=2; //1 is top, 2 right, 3 down, 4 left
 
-var heart=new Image();
-heart.src="images/heart.png";
-
 var headtop=new Image();
 headtop.src="images/headtop.png";
 
@@ -47,12 +44,6 @@ headdown.src="images/headdown.png";
 
 var headleft=new Image();
 headleft.src="images/headleft.png";
-
-function lives(){
-	for(var i=life; i>0; i--){
-		ctx.drawImage(heart,25*i,canvas.height-40,20,20); //draw hearts for lives
-	}
-}
 
 function create_snake(){
 
@@ -196,6 +187,7 @@ function check(){
 		score--;
 		}																																						
 		life--;		//eats the wrong food
+		document.getElementById("life"+(life+1)).style.display= "none";
 		flag=1;
 	}
 	document.getElementById('score').innerHTML=score;
@@ -203,7 +195,6 @@ function check(){
 
 function move(){
 	ctx.clearRect(0,0,canvas.width,canvas.height);
-	lives();
 	drawbody();
 	drawfood();
 	//drawques();
@@ -243,7 +234,7 @@ function collision(){
 function after_collision(){
 			ctx.beginPath();
 			ctx.fillStyle="red";
-			ctx.arc(xhead*cw,yhead*cw,8,0,2*Math.PI);
+			ctx.arc(xhead*cw,yhead*cw,10,0,2*Math.PI);
 			ctx.fill();
 			ctx.strokeStyle="black";
 			ctx.stroke();
@@ -319,6 +310,10 @@ function play_again(){
 window.onload = function() {
 	canvas = document.getElementById("myCanvas");
 	ctx = canvas.getContext("2d");
+
+	for(var i=1;i<=3;i++){
+	document.getElementById('life'+i).innerHTML="<img src='images/heart.png' height='20' width='20'>";
+	}
 
 	canvas.width=600; //width
 	canvas.height=400; //height

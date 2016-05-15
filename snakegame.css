@@ -25,3 +25,13 @@ canvas {
 #scorebox{
 	display: inline;
 }
+
+#life1,#life2,#life3{
+	margin-top: 5px;
+	display: inline;
+}
+
+#lives{
+	margin-left: 30px;
+	display: inline;
+}
