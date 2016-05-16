@@ -16,6 +16,9 @@ var randnum2;
 var randnum3; 
 var ques; //question
 var cw=15; //cell width
+var animx; //gobbling animation x
+var animy; // y^
+var anim_check;
 
 var rightPressed = true; //snake initially moves right
 var leftPressed = false;
@@ -74,16 +77,32 @@ function drawbody(){
 				ctx.drawImage(headleft,temp.x*cw-20,temp.y*cw-10,30,20);
 			}
 	ctx.closePath();
-		} else {
+		} else if(temp.x==animx && temp.y==animy){ // for gobbling
+		ctx.beginPath();
+	ctx.arc(temp.x*cw,temp.y*cw,11,0,2*Math.PI);
+	ctx.fillStyle = "darkgreen";
+	ctx.fill();
+	ctx.strokeStyle = "black";
+	ctx.stroke();
+	ctx.closePath(); } 
+	else {
 		ctx.beginPath();
 	ctx.arc(temp.x*cw,temp.y*cw,8,0,2*Math.PI);
 	ctx.fillStyle = "darkgreen";
 	ctx.fill();
 	ctx.strokeStyle = "black";
 	ctx.stroke();
-	ctx.closePath(); }
+	ctx.closePath();
+	}
 }
-	
+reset_anim();
+}
+
+function reset_anim() {
+	if(anim_check==0){
+	animx=null;
+	animy=null;
+	}else anim_check--;
 }
 
 function food_circle(randnum,xfood,yfood){
@@ -155,8 +174,8 @@ function update_game(){
 	if(x1food<x2food+30 && y1food<y2food+30 && x1food>x2food-30 && y1food>y2food-30 || x2food<x3food+30 && y2food<y3food+30 && x2food>x3food-30 && y2food>y3food-30 || x1food<x3food+30 && y1food<y3food+30 && x1food>x3food-30 && y1food>y3food-30 ){
 		update_game();
 	}
-	randnum1=Math.floor(Math.random()*150);
-	randnum2=Math.floor(Math.random()*150);
+	randnum1=2+Math.floor(Math.random()*150);
+	randnum2=2+Math.floor(Math.random()*150);
 	question();
 	randnum3=ques*Math.floor(2+Math.random()*10);
 		if(randnum1==randnum2 || randnum2==randnum3 || randnum3==randnum1 || randnum1%ques==0 || randnum2%ques==0){
@@ -181,6 +200,8 @@ function check(){
 		update_game();
 		score++;		// eats the right food
 		flag=1;
+		animx=xhead; animy=yhead; //save the place where gobbling animation takes place
+		anim_check=snake_array.length;
 	} else if (xhead*15==x1food && yhead*15== y1food || xhead*15==x2food && yhead*15==y2food) {
 		update_game();
 		if(score){
@@ -189,6 +210,8 @@ function check(){
 		life--;		//eats the wrong food
 		document.getElementById("life"+(life+1)).style.display= "none";
 		flag=1;
+		animx=xhead; animy=yhead; //save the place where gobbling animation takes place
+		anim_check=snake_array.length;
 	}
 	document.getElementById('score').innerHTML=score;
 }
