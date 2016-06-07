@@ -139,10 +139,10 @@ function drawfood(){
 
 function border(){
 	ctx.beginPath();
-	ctx.rect(0,0,cw+cw/2,canvas.height);
-	ctx.rect(0,0,canvas.width,cw+cw/2);
-	ctx.rect(canvas.width-cw-cw/2,0,cw+cw/2,canvas.height);
-	ctx.rect(0,canvas.height-15,canvas.width,15);
+	ctx.rect(0,0,cw+cw/2,canvas.height); //left vertical wall
+	ctx.rect(0,0,canvas.width,cw+cw/2);  //top horizontal wall
+	ctx.rect(canvas.width-cw-cw/2,0,cw+cw/2,canvas.height); //right vertical wall
+	ctx.rect(0,canvas.height-cw,canvas.width,cw); //bottom horizontal wall
 	ctx.fillStyle="#6c2e08";
 	ctx.fill();
 	/*ctx.font="20px arial";
@@ -187,7 +187,7 @@ function update_game(){
 
 function update_speed(){
 	clearInterval(clrReturn);   // clear the initial set interval
-		if(speed==80){
+		if(speed==50){
 			clrReturn=setInterval(move,speed);
 		} else{
 			speed=speed-ds;				// update the speed to make it faster
@@ -196,6 +196,7 @@ function update_speed(){
 }
 
 function check(){
+	document.getElementById("myCanvas").style.backgroundColor="#22d822";
 	if(xhead*15==x3food && yhead*15==y3food){
 		update_game();
 		score++;		// eats the right food
@@ -208,6 +209,12 @@ function check(){
 		score--;
 		}																																						
 		life--;		//eats the wrong food
+			/*ctx.beginPath();
+			ctx.fillStyle="red";
+			ctx.rect(cw+cw/2,cw+cw/2,canvas.width-45,canvas.height-35);
+			ctx.fill();
+			ctx.closePath();*/	//red effect for whole canvas rect
+		document.getElementById("myCanvas").style.backgroundColor="red"; //giving red effect
 		document.getElementById("life"+(life+1)).style.display= "none";
 		flag=1;
 		animx=xhead; animy=yhead; //save the place where gobbling animation takes place
@@ -218,6 +225,7 @@ function check(){
 
 function move(){
 	ctx.clearRect(0,0,canvas.width,canvas.height);
+	document.body.style.backgroundColor="white";
 	drawbody();
 	drawfood();
 	//drawques();
@@ -226,7 +234,6 @@ function move(){
 	direction();
 	collision();
 	check();
-	
 	if(flag==1){
 		flag=0;
 		var tail={ x:xhead, y:yhead };		//tail becomes the new head and tail
