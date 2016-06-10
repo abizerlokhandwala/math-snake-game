@@ -48,6 +48,27 @@ headdown.src="images/headdown.png";
 var headleft=new Image();
 headleft.src="images/headleft.png";
 
+var stones=new Image();
+stones.src="stones.jpg";
+
+var leftrock=new Image();
+leftrock.src="images/leftrock.png";
+
+var rightrock=new Image();
+rightrock.src="images/rightrock.png";
+
+var bottomrock=new Image();
+bottomrock.src="images/bottomrock.png";
+
+var toprock=new Image();
+toprock.src="images/toprock.png";
+
+var apple=new Image();
+apple.src="images/apple.png";
+
+var sand=new Image();
+sand.src="sand.jpg";
+
 function create_snake(){
 
 	for(var i=length-1;i>=0;i--){
@@ -106,27 +127,29 @@ function reset_anim() {
 }
 
 function food_circle(randnum,xfood,yfood){
+		//ctx.fillStyle="yellow";
 		ctx.fillStyle="yellow";
 	if(randnum.toString().length==1){
-		ctx.arc(xfood,yfood,12,0,2*Math.PI,false);
-		ctx.fill();
-		ctx.fillStyle="black";
+		/*ctx.arc(xfood,yfood,12,0,2*Math.PI,false);
+		ctx.fill();*/
+		ctx.drawImage(apple,xfood-15,yfood-18,30,33);
 		ctx.fillText(randnum,xfood-5,yfood+7);}
 	  else if(randnum.toString().length==2){
-		ctx.arc(xfood,yfood,13,0,2*Math.PI,false);
-		ctx.fill();
-		ctx.fillStyle="black";
-		ctx.fillText(randnum,xfood-9,yfood+7);}
+		/*ctx.arc(xfood,yfood,13,0,2*Math.PI,false);
+		ctx.fill();*/
+		ctx.drawImage(apple,xfood-15,yfood-18,30,33);
+		ctx.fillText(randnum,xfood-9,yfood+7);
+	}
 	  else if(randnum.toString().length==3){
-		ctx.arc(xfood,yfood,15,0,2*Math.PI,false);
-		ctx.fill();
-		ctx.fillStyle="black";
+		/*ctx.arc(xfood,yfood,15,0,2*Math.PI,false);
+		ctx.fill();*/
+		ctx.drawImage(apple,xfood-18,yfood-18,35,35);
 		ctx.fillText(randnum,xfood-14,yfood+7);}
 }
 
 function drawfood(){
 	ctx.beginPath();
-	ctx.font="bold 16px arial";
+	ctx.font="16px arial";
 	food_circle(randnum1,x1food,y1food);
 	ctx.closePath();
 	ctx.beginPath();
@@ -140,14 +163,25 @@ function drawfood(){
 function border(){
 	ctx.beginPath();
 	ctx.rect(0,0,cw+cw/2,canvas.height); //left vertical wall
+	//ctx.drawImage(stones,0,0,cw+cw/2,canvas.height,0,0,cw+cw/2,canvas.height);
 	ctx.rect(0,0,canvas.width,cw+cw/2);  //top horizontal wall
+	//ctx.drawImage(stones,0,0,canvas.width,cw+cw/2,0,0,canvas.width,cw+cw/2);
 	ctx.rect(canvas.width-cw-cw/2,0,cw+cw/2,canvas.height); //right vertical wall
+	//ctx.drawImage(stones,canvas.width-cw-cw/2,0,cw+cw/2,canvas.height,canvas.width-cw-cw/2,0,cw+cw/2,canvas.height);
 	ctx.rect(0,canvas.height-cw,canvas.width,cw); //bottom horizontal wall
-	ctx.fillStyle="#6c2e08";
-	ctx.fill();
+	//ctx.drawImage(stones,0,canvas.height-cw,canvas.width,cw,0,canvas.height-cw,canvas.width,cw);
+	ctx.fillStyle="#602b07";
+    //ctx.fill();
 	/*ctx.font="20px arial";
 	ctx.fillStyle="black";
 	ctx.fillText("Speed: "+speed,20,300);*/
+	for(var i=0;i<20;i++){
+		ctx.drawImage(bottomrock,i*30,canvas.height-cw-cw/1.5,35,30); //bottom rocks
+		ctx.drawImage(leftrock,-4,i*30,35,35); //left rocks
+		ctx.drawImage(toprock,i*30,-4,35,33);  //top rocks
+		ctx.drawImage(rightrock,canvas.width-2*cw-cw/20,i*30,33,35);  //right rocks
+		
+	}
 	ctx.closePath();
 }
 
@@ -155,14 +189,6 @@ function question(){
 	ques=3+Math.floor(Math.random()*12);
 	document.getElementById('ques').innerHTML=ques;
 }
-
-/*function drawques(){
-	ctx.beginPath();
-	ctx.fillStyle="blue";
-	ctx.font="20px arial";
-	ctx.fillText("Which of these numbers is divisible by "+ques ,200,395);
-	ctx.closePath();
-}*/
 
 function update_game(){
 	x1food=45+Math.floor(Math.random()*(canvas.width-80)/15)*15; //between 30 and width-15
@@ -225,7 +251,7 @@ function check(){
 
 function move(){
 	ctx.clearRect(0,0,canvas.width,canvas.height);
-	document.body.style.backgroundColor="white";
+	//document.body.style.backgroundColor="white";
 	drawbody();
 	drawfood();
 	//drawques();
