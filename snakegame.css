@@ -2,9 +2,9 @@
 	padding: 0; margin: 0; 
 }
 canvas { 
-	/*background-image: url("grass.jpg");
-	background-size: 700px 500px;*/
-	background-color: #22d822;
+	background-image: url("grass.jpg");
+	background-size: 605px 400px;
+	/*background-color: #22d822;*/
 	display: block; 
 	margin: 0 auto; 
 }

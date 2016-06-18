@@ -5,12 +5,14 @@ var xhead; //head position
 var yhead; //^
 var dx=cw; //amount of distance it moves
 var dy=cw; //^
-var x1food; //wrong food position
-var y1food;
-var x2food;
-var y2food;
-var x3food; //correct food position
-var y3food;
+var xfood1; //wrong food position
+var yfood1;
+var xfood2;
+var yfood2;
+var xfood3; //correct food position
+var yfood3;
+var xrock;
+var yrock;
 var randnum1; //random numbers
 var randnum2;
 var randnum3; 
@@ -48,9 +50,6 @@ headdown.src="images/headdown.png";
 var headleft=new Image();
 headleft.src="images/headleft.png";
 
-var stones=new Image();
-stones.src="stones.jpg";
-
 var leftrock=new Image();
 leftrock.src="images/leftrock.png";
 
@@ -63,11 +62,11 @@ bottomrock.src="images/bottomrock.png";
 var toprock=new Image();
 toprock.src="images/toprock.png";
 
+var collisionrock=new Image();
+collisionrock.src="rock2.png";
+
 var apple=new Image();
 apple.src="images/apple.png";
-
-var sand=new Image();
-sand.src="sand.jpg";
 
 function create_snake(){
 
@@ -126,6 +125,10 @@ function reset_anim() {
 	}else anim_check--;
 }
 
+function rock(){
+	ctx.drawImage(collisionrock,xrock,yrock,45,45);
+}
+
 function food_circle(randnum,xfood,yfood){
 		//ctx.fillStyle="yellow";
 		ctx.fillStyle="yellow";
@@ -150,13 +153,14 @@ function food_circle(randnum,xfood,yfood){
 function drawfood(){
 	ctx.beginPath();
 	ctx.font="16px arial";
-	food_circle(randnum1,x1food,y1food);
+	food_circle(randnum1,xfood1,yfood1);
 	ctx.closePath();
 	ctx.beginPath();
-	food_circle(randnum2,x2food,y2food);
+	food_circle(randnum2,xfood2,yfood2);
 	ctx.closePath();
 	ctx.beginPath();
-	food_circle(randnum3,x3food,y3food);
+	food_circle(randnum3,xfood3,yfood3);
+	rock();
 	ctx.closePath();
 }
 
@@ -190,16 +194,31 @@ function question(){
 	document.getElementById('ques').innerHTML=ques;
 }
 
+function rock_check(xposition,yposition){
+	if(xposition>=xrock && xposition<=xrock+50 && yposition<=yrock+60 && yposition>=yrock){
+		update_game();
+		console.log("working");
+	}
+}
+
 function update_game(){
-	x1food=45+Math.floor(Math.random()*(canvas.width-80)/15)*15; //between 30 and width-15
-	y1food=45+Math.floor(Math.random()*(canvas.height-80)/15)*15; // ^
-	x2food=45+Math.floor(Math.random()*(canvas.width-80)/15)*15; //between 30 and width-15
-	y2food=45+Math.floor(Math.random()*(canvas.height-80)/15)*15;
-	x3food=45+Math.floor(Math.random()*(canvas.width-80)/15)*15; //between 30 and width-15
-	y3food=45+Math.floor(Math.random()*(canvas.height-80)/15)*15;
-	if(x1food<x2food+30 && y1food<y2food+30 && x1food>x2food-30 && y1food>y2food-30 || x2food<x3food+30 && y2food<y3food+30 && x2food>x3food-30 && y2food>y3food-30 || x1food<x3food+30 && y1food<y3food+30 && x1food>x3food-30 && y1food>y3food-30 ){
+	xfood1=45+Math.floor(Math.random()*(canvas.width-80)/15)*15; //between 30 and width-15
+	yfood1=45+Math.floor(Math.random()*(canvas.height-80)/15)*15; // ^
+	xfood2=45+Math.floor(Math.random()*(canvas.width-80)/15)*15; //between 30 and width-15
+	yfood2=45+Math.floor(Math.random()*(canvas.height-80)/15)*15;
+	xfood3=45+Math.floor(Math.random()*(canvas.width-80)/15)*15; //between 30 and width-15
+	yfood3=45+Math.floor(Math.random()*(canvas.height-80)/15)*15;
+	xrock=45+Math.floor(Math.random()*(canvas.width-120)/15)*15;
+	yrock=45+Math.floor(Math.random()*(canvas.height-120)/15)*15;
+
+	if(xfood1<xfood2+30 && yfood1<yfood2+30 && xfood1>xfood2-30 && yfood1>yfood2-30 || xfood2<xfood3+30 && yfood2<yfood3+30 && xfood2>xfood3-30 && yfood2>yfood3-30 || xfood1<xfood3+30 && yfood1<yfood3+30 && xfood1>xfood3-30 && yfood1>yfood3-30 ){
 		update_game();
 	}
+
+	rock_check(xfood1,yfood1);
+	rock_check(xfood2,yfood2);
+	rock_check(xfood3,yfood3);
+
 	randnum1=2+Math.floor(Math.random()*150);
 	randnum2=2+Math.floor(Math.random()*150);
 	question();
@@ -222,14 +241,15 @@ function update_speed(){
 }
 
 function check(){
-	document.getElementById("myCanvas").style.backgroundColor="#22d822";
-	if(xhead*15==x3food && yhead*15==y3food){
+	document.getElementById("myCanvas").style.backgroundColor="none";
+	document.getElementById("myCanvas").style.backgroundImage="url('grass.jpg')";
+	if(xhead*15==xfood3 && yhead*15==yfood3){
 		update_game();
 		score++;		// eats the right food
 		flag=1;
 		animx=xhead; animy=yhead; //save the place where gobbling animation takes place
 		anim_check=snake_array.length;
-	} else if (xhead*15==x1food && yhead*15== y1food || xhead*15==x2food && yhead*15==y2food) {
+	} else if (xhead*15==xfood1 && yhead*15== yfood1 || xhead*15==xfood2 && yhead*15==yfood2) {
 		update_game();
 		if(score){
 		score--;
@@ -240,6 +260,7 @@ function check(){
 			ctx.rect(cw+cw/2,cw+cw/2,canvas.width-45,canvas.height-35);
 			ctx.fill();
 			ctx.closePath();*/	//red effect for whole canvas rect
+		document.getElementById("myCanvas").style.backgroundImage="none";
 		document.getElementById("myCanvas").style.backgroundColor="red"; //giving red effect
 		document.getElementById("life"+(life+1)).style.display= "none";
 		flag=1;
@@ -274,7 +295,7 @@ function move(){
 }
 
 function conditions(){
-			if(xhead*cw<=cw || xhead*cw>=canvas.width-cw || yhead*cw<=cw || yhead*cw>=canvas.height-20 || !life){  //border and lives
+			if(xhead*cw<=cw || xhead*cw>=canvas.width-cw || yhead*cw<=cw || yhead*cw>=canvas.height-20 || !life || xhead*cw<=xrock+2*cw && xhead*cw>xrock && yhead*cw<=yrock+2*cw && yhead*cw>=yrock){  //border and lives
 				after_collision();
 			}
 }
@@ -288,6 +309,7 @@ function collision(){
 }
 
 function after_collision(){
+			document.getElementById("myCanvas").style.backgroundImage="url('grass.jpg')";
 			ctx.beginPath();
 			ctx.fillStyle="red";
 			ctx.arc(xhead*cw,yhead*cw,10,0,2*Math.PI);
