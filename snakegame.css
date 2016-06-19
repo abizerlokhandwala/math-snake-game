@@ -1,8 +1,5 @@
-* { 
-	padding: 0; margin: 0; 
-}
-canvas { 
-	background-image: url("grass.jpg");
+#myCanvas { 
+	background-image: url("images/grass.jpg");
 	background-size: 605px 400px;
 	/*background-color: #22d822;*/
 	display: block; 
@@ -14,26 +11,41 @@ canvas {
 #box{
 	background-color: white;
 	border: black solid;
-	height: 50px;
-	width: 600px;
+	height: 25px;
+	width: 575px;
 	margin: 0 auto;
 	padding: 10px;
 	font-size: 20px;
 }
 #quesbox{
 	float:right;
-	display: inline;
+	display: inline-block;
 }
 #scorebox{
-	display: inline;
+	display: inline-block;
+	position: absolute;
 }
 
-#life1,#life2,#life3{
-	margin-top: 5px;
-	display: inline;
+#lives>div{
+	margin-top: -21px;
+	display: inline-block;
+	position: absolute;
+}
+
+#life1{
+	margin-left: 54px;
+}
+
+#life2{
+	margin-left: 78px;
+}
+
+#life3{
+	margin-left: 102px;
 }
 
 #lives{
-	margin-left: 30px;
-	display: inline;
+	margin-left: 90px;
+	display: inline-block;
+	position: absolute;
 }
