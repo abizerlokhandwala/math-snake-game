@@ -9,6 +9,9 @@
 
 //when the food is eaten, it doesnt pop the last element of the array and instead only adds an extra elemnt to the array
 
+var start_flag=0;
+
+function game(){
 
 var canvas = null;
 var ctx = null;
@@ -196,7 +199,7 @@ function question(){
 }
 
 function rock_check(xposition,yposition){ //check if rock spawns next to a food particle position
-	if(xposition>=xrock && xposition<=xrock+50 && yposition<=yrock+60 && yposition>=yrock){
+	if(xposition>=xrock && xposition<=xrock+50 && yposition<=yrock+60 && yposition>=yrock || xrock<=xhead*cw+30 && xrock>=xhead*cw-60 && yrock>=yhead*cw-40 && yrock<=yhead*cw){
 		update_game();
 	}
 }
@@ -373,8 +376,22 @@ function keyreset() {
 function play_again(){
 	alert("GAME OVER\nYour score is: "+score);
 	if(confirm("Play again?")){
-			location.reload();
+			game();
 	}
+}
+
+if(start_flag==1){
+	canvas = document.getElementById("myCanvas");
+	ctx = canvas.getContext("2d");
+
+	canvas.width=600; //width
+	canvas.height=400; //height
+	document.getElementById("life1").style.display= "inline-block";
+	document.getElementById("life2").style.display= "inline-block";
+	document.getElementById("life3").style.display= "inline-block";
+	addEventListener("keydown", keyDownHandler, false);
+	create_snake(); //make snake array
+	update_game();	//start with making random numbers and positions of food particles, and giving a setInterval
 }
 
 window.onload = function() { //functions start only after loading of the html file
@@ -385,7 +402,12 @@ window.onload = function() { //functions start only after loading of the html fi
 	canvas.width=600; //width
 	canvas.height=400; //height
 
+	start_flag=1;
+
 	addEventListener("keydown", keyDownHandler, false);
 	create_snake(); //make snake array
 	update_game();	//start with making random numbers and positions of food particles, and giving a setInterval
 }
+}
+
+game();

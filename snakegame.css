@@ -19,7 +19,7 @@
 }
 #quesbox{
 	float:right;
-	display: inline-block;
+	display: block;
 }
 #scorebox{
 	display: inline-block;
