@@ -8,4 +8,6 @@ A math based snake game, additional to the classical snake game, you have a ques
 3. Colliding with the rocky boundaries of the field or the obstruction (rock) in the field leads to an instant loss. 
 4. 3 lives are given initially, consuming the wrong apple more than 3 times leads to a loss.
 
+Game can be played here: http://abizerlokhandwala.github.io/math-snake-game/
+
 Enjoy! :D
