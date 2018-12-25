@@ -4,7 +4,7 @@
 
 //update_game() function makes the random positions and numbers required, and gives a setInterval with the required initial speed and the looping function as move()
 
-//move() function displays the food, borders, snake, obstruction rock etc and also sees the direction and other required conditions, and then 
+//move() function displays the food, borders, snake, obstruction rock etc and also sees the direction and other required conditions, and then
 //pops the last element of the array and adds it to the start of the array to make the snake move
 
 //when the food is eaten, it doesnt pop the last element of the array and instead only adds an extra elemnt to the array
@@ -31,7 +31,7 @@ var xrock; //obstructing rock position
 var yrock;
 var randnum1; //random numbers
 var randnum2;
-var randnum3; 
+var randnum3;
 var ques; //question
 var animx; //gobbling animation x
 var animy; // y^
@@ -93,9 +93,7 @@ function create_snake(){
 }
 
 function drawbody(){
-	
 	for(var i=0; i<snake_array.length; i++){
-
 		var temp=snake_array[i];
 		if(i==0){
 			ctx.beginPath();
@@ -111,32 +109,32 @@ function drawbody(){
 			if(rotate==4){
 				ctx.drawImage(headleft,temp.x*cw-20,temp.y*cw-10,30,20);
 			}
-	ctx.closePath();
-		} else if(temp.x==animx && temp.y==animy){ //for gobbling
-		ctx.beginPath();
-	ctx.arc(temp.x*cw,temp.y*cw,11,0,2*Math.PI); //display snake body with higher radius to show gobbling effect
-	ctx.fillStyle = "darkgreen";
-	ctx.fill();
-	ctx.strokeStyle = "black";
-	ctx.stroke();
-	ctx.closePath(); } 
-	else {					//normal display of snake body			
-		ctx.beginPath();
-	ctx.arc(temp.x*cw,temp.y*cw,8,0,2*Math.PI);
-	ctx.fillStyle = "darkgreen";
-	ctx.fill();
-	ctx.strokeStyle = "black";
-	ctx.stroke();
-	ctx.closePath();
+			ctx.closePath();
+		}else if(temp.x==animx && temp.y==animy){ //for gobbling
+			ctx.beginPath();
+			ctx.arc(temp.x*cw,temp.y*cw,11,0,2*Math.PI); //display snake body with higher radius to show gobbling effect
+			ctx.fillStyle = "darkgreen";
+			ctx.fill();
+			ctx.strokeStyle = "black";
+			ctx.stroke();
+			ctx.closePath();
+		}else{					//normal display of snake body
+			ctx.beginPath();
+			ctx.arc(temp.x*cw,temp.y*cw,8,0,2*Math.PI);
+			ctx.fillStyle = "darkgreen";
+			ctx.fill();
+			ctx.strokeStyle = "black";
+			ctx.stroke();
+			ctx.closePath();
+		}
 	}
-}
-reset_anim(); //stop the gobbling anim
+	reset_anim(); //stop the gobbling anim
 }
 
 function reset_anim() {
 	if(anim_check==0){ //check if gobbling is over
-	animx=null;
-	animy=null;
+		animx=null;
+		animy=null;
 	}else anim_check--; //gobbling effect one step closer to completion
 }
 
@@ -145,21 +143,19 @@ function obs_rock(){ //display the obstruction rock
 }
 
 function food_circle(randnum,xfood,yfood){ //display the apples with the text
-		ctx.fillStyle="yellow";
-		ctx.font="16px arial";
+	ctx.fillStyle="yellow";
+	ctx.font="16px arial";
 	if(randnum.toString().length==1){
 		/*ctx.arc(xfood,yfood,12,0,2*Math.PI,false);
 		ctx.fill();*/
 		ctx.drawImage(apple,xfood-15,yfood-18,30,33);
 		ctx.fillText(randnum,xfood-5,yfood+7);
-	}
-	  else if(randnum.toString().length==2){
+	}else if(randnum.toString().length==2){
 		/*ctx.arc(xfood,yfood,13,0,2*Math.PI,false);
 		ctx.fill();*/
 		ctx.drawImage(apple,xfood-15,yfood-18,30,33);
 		ctx.fillText(randnum,xfood-9,yfood+7);
-	}
-	  else if(randnum.toString().length==3){
+	}else if(randnum.toString().length==3){
 		/*ctx.arc(xfood,yfood,15,0,2*Math.PI,false);
 		ctx.fill();*/
 		ctx.drawImage(apple,xfood-18,yfood-18,35,35);
@@ -182,13 +178,13 @@ function drawfood(){
 
 function border(){
 	ctx.beginPath();
-		
+
 	for(var i=0;i<20;i++){
 		ctx.drawImage(bottomrock,i*30,canvas.height-cw-cw/1.5,35,30); //bottom rocks
 		ctx.drawImage(leftrock,-4,i*30,35,35); //left rocks
 		ctx.drawImage(toprock,i*30,-4,35,33);  //top rocks
 		ctx.drawImage(rightrock,canvas.width-2*cw-cw/20,i*30,33,35);  //right rocks
-		
+
 	}
 	ctx.closePath();
 }
@@ -226,21 +222,21 @@ function update_game(){
 	randnum2=2+Math.floor(Math.random()*150);
 	question();
 	randnum3=ques*Math.floor(2+Math.random()*10);
-		if(randnum1==randnum2 || randnum2==randnum3 || randnum3==randnum1 || randnum1%ques==0 || randnum2%ques==0){ //if 2 nos are the same or wrong ans are right
-			update_game();
-		} else {
-			update_speed();
+	if(randnum1==randnum2 || randnum2==randnum3 || randnum3==randnum1 || randnum1%ques==0 || randnum2%ques==0){ //if 2 nos are the same or wrong ans are right
+		update_game();
+	}else{
+		update_speed();
 	}
 }
 
 function update_speed(){ //decrease speed
 	clearInterval(clrReturn);   // clear the initial set interval
-		if(speed==50){
-			clrReturn=setInterval(move,speed);
-		} else{
-			speed=speed-ds;				// update the speed to make it faster
-			clrReturn=setInterval(move,speed);  // new set interval with new speed
-		}
+	if(speed==50){
+		clrReturn=setInterval(move,speed);
+	} else{
+		speed=speed-ds;				// update the speed to make it faster
+		clrReturn=setInterval(move,speed);  // new set interval with new speed
+	}
 }
 
 function check(){
@@ -248,15 +244,15 @@ function check(){
 	document.getElementById("myCanvas").style.backgroundImage="url('images/grass.jpg')"; //give default bg
 	if(xhead*15==xfood3 && yhead*15==yfood3){ //eats the right particle
 		update_game();
-		score++;		
+		score++;
 		flag=1; //length should increase
 		animx=xhead; animy=yhead; //save the place where gobbling animation takes place
 		anim_check=snake_array.length;
-	} else if (xhead*15==xfood1 && yhead*15==yfood1 || xhead*15==xfood2 && yhead*15==yfood2) {
+	}else if (xhead*15==xfood1 && yhead*15==yfood1 || xhead*15==xfood2 && yhead*15==yfood2) {
 		update_game();
 		if(score){ //negative score not possible
 		score--;
-		}																																						
+		}
 		life--;		//eats the wrong food
 
 		document.getElementById("myCanvas").style.backgroundImage="none"; //no bg image
@@ -281,73 +277,68 @@ function move(){
 	if(flag==1){
 		flag=0;
 		var tail={ x:xhead, y:yhead };		//variable tail becomes the new head and tail
-	}else {
-	var tail=snake_array.pop();		//pop the last element and store in variable tail
-	tail={ x:xhead, y:yhead };
-			}
+	}else{
+		var tail=snake_array.pop();		//pop the last element and store in variable tail
+		tail={	x:xhead, y:yhead	};
+	}
 	snake_array.unshift(tail);		//add variable tail at the start
 
 	directionflag=1; //direction change allowed after movement of snake is done
-
 }
 
 function conditions(){ //conditions for death
-			if(xhead*cw<=cw || xhead*cw>=canvas.width-cw || yhead*cw<=cw || yhead*cw>=canvas.height-20 || !life || xhead*cw<=xrock+2*cw && xhead*cw>xrock && yhead*cw<=yrock+2*cw && yhead*cw>=yrock){  //border and lives
-				after_collision(); 
-			}
+	if(xhead*cw<=cw || xhead*cw>=canvas.width-cw || yhead*cw<=cw || yhead*cw>=canvas.height-20 || !life || xhead*cw<=xrock+2*cw && xhead*cw>xrock && yhead*cw<=yrock+2*cw && yhead*cw>=yrock){  //border and lives
+		after_collision();
+	}
 }
 
 function collision(){ //conditions for body collision
 	for(var i=0;i<snake_array.length;i++){
-		if (snake_array[i].x==xhead && snake_array[i].y==yhead){	//body collision
+		if(snake_array[i].x==xhead && snake_array[i].y==yhead){	//body collision
 			after_collision();
 		}
 	}
 }
 
 function after_collision(){
-			document.getElementById("myCanvas").style.backgroundImage="url('images/grass.jpg')"; //give bg
-			ctx.beginPath();
-			ctx.fillStyle="red"; //give red collision head
-			ctx.arc(xhead*cw,yhead*cw,10,0,2*Math.PI);
-			ctx.fill();
-			ctx.strokeStyle="black";
-			ctx.stroke();
-			ctx.closePath();
-			clearInterval(clrReturn);
-			play_again();
+	document.getElementById("myCanvas").style.backgroundImage="url('images/grass.jpg')"; //give bg
+	ctx.beginPath();
+	ctx.fillStyle="red"; //give red collision head
+	ctx.arc(xhead*cw,yhead*cw,10,0,2*Math.PI);
+	ctx.fill();
+	ctx.strokeStyle="black";
+	ctx.stroke();
+	ctx.closePath();
+	clearInterval(clrReturn);
+	setTimeout(function(){
+		play_again();
+	},10);
 }
 
 function keyDownHandler(e) { //movement
 	if(directionflag==1){ //direction change allowed
-    if( (e.keyCode == 39 || e.keyCode==68) && leftPressed!=true) { 	   //right
-        	keyreset(); //make all directions false
-        	rightPressed = true;
-        	directionflag=0; //direction change not allowed until snake movement
-        	rotate=2;
-    }
-
-    else if( (e.keyCode == 37 || e.keyCode==65) && rightPressed!=true) { //left
-        	keyreset();
-        	leftPressed = true;
-        	directionflag=0;
-        	rotate=4;
-    }
-
-    else if( (e.keyCode == 38 || e.keyCode==87) && bottomPressed!=true){  //top
-        	keyreset();
-        	topPressed = true;
-        	directionflag=0;
-        	rotate=1;
-    }
-
-    else if( (e.keyCode == 40 || e.keyCode==83)&& topPressed!=true){  //down
-        	keyreset();
-        	bottomPressed = true;
-        	directionflag=0;
-        	rotate=3;
-    }
-}
+		if( (e.keyCode == 39 || e.keyCode==68) && leftPressed!=true) { 	   //right
+			keyreset(); //make all directions false
+			rightPressed = true;
+			directionflag=0; //direction change not allowed until snake movement
+			rotate=2;
+		}else if( (e.keyCode == 37 || e.keyCode==65) && rightPressed!=true) { //left
+			keyreset();
+			leftPressed = true;
+			directionflag=0;
+			rotate=4;
+		}else if( (e.keyCode == 38 || e.keyCode==87) && bottomPressed!=true){  //top
+			keyreset();
+			topPressed = true;
+			directionflag=0;
+			rotate=1;
+		}else if( (e.keyCode == 40 || e.keyCode==83)&& topPressed!=true){  //down
+			keyreset();
+			bottomPressed = true;
+			directionflag=0;
+			rotate=3;
+		}
+	}
 }
 
 function direction(){
@@ -376,7 +367,7 @@ function keyreset() {
 function play_again(){
 	alert("GAME OVER\nYour score is: "+score);
 	if(confirm("Play again?")){
-			game();
+		game();
 	}
 }
 
@@ -395,7 +386,7 @@ if(start_flag==1){
 }
 
 window.onload = function() { //functions start only after loading of the html file
-	
+
 	canvas = document.getElementById("myCanvas");
 	ctx = canvas.getContext("2d");
 
